@@ -1,0 +1,5 @@
+.rbseo-image-list             { margin:1em 0 0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:10px; }
+.rbseo-image-list li          { position:relative; }
+.rbseo-image-list img         { width:80px; height:80px; object-fit:cover; border:1px solid #ccd0d4; border-radius:4px; }
+.rbseo-image-list .rbseo-remove { position:absolute; top:-8px; right:-8px; background:#fff; border-radius:50%; padding:2px; cursor:pointer; color:#b32d2e; }
+.rbseo-header img            { border-radius:8px; }
