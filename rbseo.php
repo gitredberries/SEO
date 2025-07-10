@@ -60,7 +60,22 @@ class Redberries_SEO {
 
     public function sanitize_options( $input ) {
         $out            = [];
-        $out['scripts'] = isset( $input['scripts'] ) ? wp_kses_post( $input['scripts'] ) : '';
+        
+        // Sanitize scripts separately to allow ld+json
+        if ( isset( $input['scripts'] ) ) {
+            $allowed_html = [
+                'script' => [
+                    'type' => true,
+                ],
+            ];
+            // Add other allowed tags as needed, for example:
+            // $allowed_html['style'] = ['type' => true];
+            // $allowed_html['noscript'] = [];
+            
+            $out['scripts'] = wp_kses( $input['scripts'], $allowed_html );
+        } else {
+            $out['scripts'] = '';
+        }
 
         $out['images'] = [];
         if ( ! empty( $input['images'] ) && is_array( $input['images'] ) ) {
@@ -167,7 +182,20 @@ class Redberries_SEO {
         }
         if ( isset( $_POST['rbseo_meta'] ) && is_array( $_POST['rbseo_meta'] ) ) {
             $meta               = [];
-            $meta['scripts']    = isset( $_POST['rbseo_meta']['scripts'] ) ? wp_kses_post( $_POST['rbseo_meta']['scripts'] ) : '';
+
+            // Sanitize scripts separately to allow ld+json
+            if ( isset( $_POST['rbseo_meta']['scripts'] ) ) {
+                $allowed_html = [
+                    'script' => [
+                        'type' => true,
+                    ],
+                ];
+                // Add other allowed tags as needed
+                $meta['scripts'] = wp_kses( $_POST['rbseo_meta']['scripts'], $allowed_html );
+            } else {
+                $meta['scripts'] = '';
+            }
+            
             $meta['images']     = [];
             if ( ! empty( $_POST['rbseo_meta']['images'] ) && is_array( $_POST['rbseo_meta']['images'] ) ) {
                 foreach ( $_POST['rbseo_meta']['images'] as $id ) {
